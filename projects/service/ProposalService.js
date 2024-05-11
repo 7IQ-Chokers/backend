@@ -3,7 +3,7 @@ require('dotenv').config({
 });
 const OpenAI = require("openai");
 const openai = new OpenAI();
-
+const { v4: uuidv4 } = require('uuid');
 
 const getProposalById = async (id) => {
     const proposal = await Proposal.findById(id).populate('problem').exec();
@@ -40,6 +40,49 @@ const generateProposalForAProject = async(title, description) => {
     
     return completion.choices[0];
     
+}
+
+const addComment = async (userId, text, proposalId) => {
+    let proposal = await Proposal.findById(proposalId);
+    if(!proposal.comments) {
+        proposal.comments = [];
+    }
+    let newComment = {
+        "id": uuidv4(),
+        "user": userId,
+        "text": text
+    };
+    let comments = [...proposal.comments, newComment];
+    await updateProposalById(proposalId, {comments: comments});
+    return newComment;
+}
+
+const editComment = async(commentId, proposalId, text) => {
+    let proposal = await Proposal.findById(proposalId);
+    if(!proposal.comments) {
+        proposal.comments = [];
+    }
+    let comments = [...proposal.comments];
+    let newComment = null;
+    comments.forEach(comment=> {
+        if(comment.id == commentId) {
+            comment.text = text;
+            newComment = comment;
+        }
+    });
+    await updateProposalById(proposalId, {comments: comments});
+    return newComment;
+}
+
+const deleteComment = async (commentId, proposalId) => {
+    let proposal = await Proposal.findById(proposalId);
+    if(!proposal.comments) {
+        proposal.comments = [];
+    }
+    let comments = [...proposal.comments];
+    comments = comments.filter(comment => comment.id != commentId);
+    await updateProposalById(proposalId, {comments: comments});
+    return true;
 }
 
 const validateProposalObject = (proposal) => {
@@ -92,5 +135,8 @@ module.exports = {
     addProposal,
     updateProposalById,
     deleteProposalById,
-    generateProposalForAProject
+    generateProposalForAProject,
+    addComment,
+    editComment,
+    deleteComment
 };

@@ -29,6 +29,15 @@ const Proposal = new Schema({
   },
   tags: [{
     type: String
+  }],
+  comments: [{
+    id: String,
+    user: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
+    },
+    text: String
   }]
 });
 

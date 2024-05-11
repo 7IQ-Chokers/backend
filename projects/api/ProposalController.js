@@ -41,5 +41,32 @@ module.exports = {
         } else {
             res.json({status: 'failure'});
         }
+    },
+
+    addComment: async (req, res, next) => {
+        let proposalId = req.body.proposalId;
+        let userId = req.body.id;
+        let text = req.body.text;
+        let comment = await proposalService.addComment(userId, text, proposalId);
+        res.json({status: 'success', data: {comment: comment}});
+    },
+
+    editComment: async(req, res, next) => {
+        let proposalId = req.body.proposalId;
+        let commentId = req.body.commentId;
+        let text = req.body.text;
+        let newComment = await proposalService.editComment(commentId, proposalId, text);
+        res.json({status: 'success', data: {comment: newComment}});
+    },
+
+    deleteComment: async(req, res, next) => {
+        let proposalId = req.body.proposalId;
+        let commentId = req.body.commentId;
+        let status = await proposalService.deleteComment(commentId, proposalId);
+        if(status) {
+            res.json({status: 'success'});
+        } else {
+            res.json({status: 'failure'});
+        }
     }
 }
