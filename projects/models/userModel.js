@@ -43,6 +43,10 @@ const User = new Schema({
   calendlyLink: {
     type: String,
     required: true,
+  },
+  currentOtp: {
+    type: String,
+    length: 6
   }
 });
 

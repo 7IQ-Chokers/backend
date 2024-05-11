@@ -46,5 +46,6 @@ const Problem = new Schema({
   }
 });
 
+Problem.index({ "location.coordinates": "2dsphere" }); 
 
 module.exports = Problem;

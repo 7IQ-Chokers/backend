@@ -23,7 +23,7 @@ const Proposal = new Schema({
     type: String,
     required: true,
   },
-  created_by: {
+  createdBy: {
     type: String,
     required: true,
   },
