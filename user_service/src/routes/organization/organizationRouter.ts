@@ -1,6 +1,6 @@
 import express from "express";
-import verifyUserJWT from "../../utils/verifyUserJWT";
 import addNewOrganizationController from "../../controllers/organization/addNewOrganizationController";
+import getOrganizationByNameController from "../../controllers/organization/getOrganizationByNameController";
 
 const router = express.Router();
 
@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/", addNewOrganizationController);
 
 // GET /?name="google"
-// router.get("/", addNewOrganizationController);
+router.get("/", getOrganizationByNameController);
 
 export default router;
