@@ -14,7 +14,9 @@ const userLoginController = async (req: Request, res: Response) => {
     email: email,
   });
 
-  const otp = Math.round(Math.random() * 1000000).toString();
+  const otp = (
+    Math.round(Math.random() * 1000000).toString() + "0000000000"
+  ).slice(0, 6);
 
   if (!userDoc) {
     // If new login for user, create a doc
