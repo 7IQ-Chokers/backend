@@ -24,21 +24,18 @@ const Problem = new Schema({
   },
   description: {
     type: String,
-    trim: true,
-    required: true,
+    trim: true
   },
   media: [{
-    type: String,
-    required: true,
+    type: String
   }],
   location: GeoSchema,
-  created_by: {
+  createdBy: {
     type: String,
     required: true,
   },
   tags: [{
-    type: String,
-    default: '2000-12-20',
+    type: String
   }],
   isLocationAgnostic: {
     type: Boolean,

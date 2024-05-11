@@ -1,22 +1,22 @@
 const getProjectById = async (id) => {
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate("proposal").exec();
     return project;
 }
 
 const getAllProjectsByTags = async(tags) => {
     let filter = { tags: tags };
     filter.tags = { $in: filter.tags.map(t => new RegExp(t)) };
-    let projects = await Project.find(filter);
+    let projects = await Project.find(filter).populate("proposal").exec();
     return projects;
 }
 
 const getAllProjectsForAPerson = async(personId) => {
-    let projects = await Project.findAll({createdBy: personId});
+    let projects = await Project.findAll({createdBy: personId}).populate("proposal").exec();
     return projects;
 }
 
 const getAllProjectsForAProposal = async(proposalId) => {
-    let projects = await Project.findAll({proposalId: proposalId});
+    let projects = await Project.findAll({proposalId: proposalId}).populate("proposal").exec();
     return projects;
 }
 
@@ -59,4 +59,13 @@ const deleteProjectById = async(project_id) => {
         return true;
     }
     return false;
+}
+
+module.exports = {
+    getProjectById,
+    getAllProjectsByTags,
+    getAllProjectsForAPerson,
+    getAllProjectsForAProposal,
+    addProject,
+    updateProjectById
 }

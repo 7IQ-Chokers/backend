@@ -9,6 +9,11 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { createMongoConnection } = require('./config/database');
+const problemRoutes = require("./routes/problem");
+const proposalRoutes = require("./routes/proposal");
+const investmentRoutes = require("./routes/investment");
+const projectRoutes = require("./routes/project");
+
 // database configuration
 
 const app = express();
@@ -16,7 +21,7 @@ app.set('secretKey', 'nodeRestApi'); // jwt secret token
 const { mongoURI } = require('./config/database');
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '*',
   optionsSuccessStatus: 200,
   // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -35,6 +40,15 @@ app.use((req, res, next) => {
 app.use(logger('dev'));
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
+
+const validateUser = (req, res, next) => {
+  next();
+};
+
+app.use("/problems", validateUser, problemRoutes);
+app.use("/proposals", validateUser, proposalRoutes);
+app.use("/investments", validateUser, investmentRoutes);
+app.use("/projects", validateUser, projectRoutes);
 
 
 app.use(function(req, res, next) {

@@ -1,15 +1,15 @@
 const getInvestmentById = async (id) => {
-    const investment = await Investment.findById(id);
+    const investment = await Investment.findById(id).populate('investor').populate('project').exec();
     return investment;
 }
 
 const getAllInvestmentsForAPerson = async(personId) => {
-    let investments = await Investment.findAll({investorId: personId});
+    let investments = await Investment.findAll({investorId: personId}).populate('investor').populate('project').exec();
     return investments;
 }
 
 const getAllInvestmentsForAProject = async(projectId) => {
-    let investments = await Investment.findAll({projectId: projectId});
+    let investments = await Investment.findAll({projectId: projectId}).populate('investor').populate('project').exec();
     return investments;
 }
 
@@ -36,4 +36,11 @@ const deleteInvestmentById = async(investment_id) => {
         return true;
     }
     return false;
+}
+
+module.exports = {
+    getAllInvestmentsForAPerson,
+    getAllInvestmentsForAProject,
+    addInvestment,
+    updateInvestmentById
 }

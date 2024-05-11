@@ -47,6 +47,9 @@ const User = new Schema({
   currentOtp: {
     type: String,
     length: 6
+  },
+  isProfileComplete: {
+    type: Boolean
   }
 });
 

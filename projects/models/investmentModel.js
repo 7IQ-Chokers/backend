@@ -4,13 +4,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Investment = new Schema({
-  investorId: {
-    type: String,
+  investor: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
-  projectId: {
-    type: String,
+  project: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'Project'
   },
   status: {
     type: String,

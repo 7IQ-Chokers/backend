@@ -66,3 +66,12 @@ const deleteProblemById = async(problem_id) => {
     }
     return false;
 }
+
+module.exports = {
+    getProblemById,
+    getAllProblemsByTags,
+    getAllProblemsNearALocation,
+    addProblem,
+    updateProblemById,
+    deleteProblemById
+}

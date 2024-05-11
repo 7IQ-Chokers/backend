@@ -12,24 +12,23 @@ const Project = new Schema({
   },
   description: {
     type: String,
-    trim: true,
-    required: true,
+    trim: true
   },
   media: [{
-    type: String,
-    required: true,
+    type: String
   }],
-  created_by: {
-    type: String,
+  createdBy: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
   tags: [{
-    type: String,
-    default: '2000-12-20',
+    type: String
   }],
-  proposalId: {
-    type: String,
+  proposal: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'Proposal'
   }
 });
 
