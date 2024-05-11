@@ -40,9 +40,12 @@ const Problem = new Schema({
   isLocationAgnostic: {
     type: Boolean,
     default: false
+  },
+  locationDisplayName: {
+    type: String
   }
 });
 
-Problem.index({ "location.coordinates": "2dsphere" }); 
+Problem.index({ "location": "2dsphere" }); 
 
 module.exports = Problem;

@@ -46,17 +46,17 @@ module.exports = {
 
     createProject: async (req, res, next) => {
         let project = req.body.project;
-        if(!project.proposalId) {
+        if(!project.proposal) {
             let description = await proposalService.generateProposalForAProject(project.title, project.description);
             let proposal = await proposalService.addProposal({
-                title: `Proposal for ${title}`,
+                title: `Proposal for ${project.title}`,
                 description: description,
                 media: [],
                 problem: problemId,
                 createdBy: userId,
                 tags: project.tags
             });
-            project.proposalId = proposal._id;
+            project.proposal = proposal._id;
         }
         
         project = await projectService.addProject(project);

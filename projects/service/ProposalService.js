@@ -13,17 +13,17 @@ const getProposalById = async (id) => {
 const getAllProposalsByTags = async(tags) => {
     let filter = { tags: tags };
     filter.tags = { $in: filter.tags.map(t => new RegExp(t)) };
-    let proposals = await Proposal.find(filter).populate('problem').exec();
-    return proposals;
+    let problems = await Proposal.find(filter);
+    return problems;
 }
 
 const getAllProposalsForAPerson = async(personId) => {
-    let proposals = await Proposal.findAll({createdBy: personId}).populate('problem').exec();
+    let proposals = await Proposal.find({createdBy: personId}).populate('problem').exec();
     return proposals;
 }
 
 const getAllProposalsForAProblem = async(problemId) => {
-    let proposals = await Proposal.findAll({problemId: problemId}).populate('problem').exec();
+    let proposals = await Proposal.find({problem: problemId}).populate('problem').exec();
     return proposals;
 }
 
@@ -47,15 +47,16 @@ const validateProposalObject = (proposal) => {
 }
 
 const formatProposalObject = (proposal) => {
-    if(proposal.description) {
+    if(!proposal.description) {
         proposal.description = "";
     }
-    if(proposal.media) {
+    if(!proposal.media) {
         proposal.media = [];
     }
-    if(proposal.tags) {
+    if(!proposal.tags) {
         proposal.tags = [];
     }
+    return proposal;
 }
 
 const addProposal = async(proposal) => {

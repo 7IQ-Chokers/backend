@@ -4,18 +4,19 @@ const getInvestmentById = async (id) => {
 }
 
 const getAllInvestmentsForAPerson = async(personId) => {
-    let investments = await Investment.findAll({investorId: personId}).populate('investor').populate('project').exec();
+    let investments = await Investment.find({investor: personId}).populate('investor').populate('project').exec();
     return investments;
 }
 
 const getAllInvestmentsForAProject = async(projectId) => {
-    let investments = await Investment.findAll({projectId: projectId}).populate('investor').populate('project').exec();
+    let investments = await Investment.find({project: projectId}).populate('investor').populate('project').exec();
     return investments;
 }
 
 
 const addInvestment = async(investment) => {
-    if(investment && investment.investor_id && investment.project_id) {
+    if(investment && investment.investor && investment.project) {
+        investment.status = "In Talks";
         investment = await Investment.create(investment);
         return investment;
     }

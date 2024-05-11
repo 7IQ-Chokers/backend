@@ -11,12 +11,12 @@ const getAllProjectsByTags = async(tags) => {
 }
 
 const getAllProjectsForAPerson = async(personId) => {
-    let projects = await Project.findAll({createdBy: personId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
+    let projects = await Project.find({createdBy: personId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return projects;
 }
 
 const getAllProjectsForAProposal = async(proposalId) => {
-    let projects = await Project.findAll({proposalId: proposalId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
+    let projects = await Project.find({proposal: proposalId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return projects;
 }
 
@@ -26,15 +26,16 @@ const validateProjectObject = (project) => {
 }
 
 const formatProjectObject = (project) => {
-    if(project.description) {
+    if(!project.description) {
         project.description = "";
     }
-    if(project.media) {
+    if(!project.media) {
         project.media = [];
     }
-    if(project.tags) {
+    if(!project.tags) {
         project.tags = [];
     }
+    return project;
 }
 
 const addProject = async(project) => {

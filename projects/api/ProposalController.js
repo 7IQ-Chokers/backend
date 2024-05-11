@@ -10,7 +10,7 @@ module.exports = {
 
     findProposalsByTags: async (req, res, next) => {
         let tags = req.body.tags;
-        let proposals = await proposalService.getAllProposalsForAPerson(tags);
+        let proposals = await proposalService.getAllProposalsByTags(tags);
         res.json({status: 'success', data: {proposals: proposals}});
     },
     
@@ -25,7 +25,7 @@ module.exports = {
     createProposal: async (req, res, next) => {
         let proposal = req.body.proposal;
         proposal = await proposalService.addProposal(proposal);
-        if(problem) {
+        if(proposal) {
             res.json({status: 'success', data: {proposal: proposal}});
         } else {
             res.json({status: 'failure', data: null});

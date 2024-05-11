@@ -17,7 +17,7 @@ async function createMongoConnection(mongoDB) {
 }
 
 mongoose.Promise = global.Promise;
-
+mongoose.set("debug", true);
 
 module.exports = {
   createMongoConnection,

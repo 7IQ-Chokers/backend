@@ -5,8 +5,19 @@ const axios = require("axios");
 
 const LLAMA_URI = process.env.LLAMA_URI || "";
 
+const processLocation = async (problem) => {
+    let location = problem["location"];
+    let response = await axios.post(`https://geocode.maps.co/reverse?lat=${location["coordinates"]["latitude"]}&lon=${location["coordinates"]["longitude"]}&api_key=663fb43306219517704421locfce31f`);
+    if(response.status == 200 && response.data) {
+        let address = response.data;
+        problem.locationDisplayName = address["display_name"];
+        problem.location.coordinates = [location["coordinates"]["longitude"], location["coordinates"]["latitude"]];
+    }
+    return problem;
+}
+
 const getProblemById = async (id) => {
-    const problem = await problem.findById(id);
+    const problem = await Problem.findById(id);
     return problem;
 }
 
@@ -38,20 +49,22 @@ const validateProblemObject = (problem) => {
 }
 
 const formatProblemObject = (problem) => {
-    if(problem.description) {
+    if(!problem.description) {
         problem.description = "";
     }
-    if(problem.media) {
+    if(!problem.media) {
         problem.media = [];
     }
-    if(problem.tags) {
+    if(!problem.tags) {
         problem.tags = [];
     }
+    return problem;
 }
 
 const addProblem = async(problem) => {
     if(validateProblemObject(problem)) {
         problem = formatProblemObject(problem);
+        problem = await processLocation(problem);
         problem = await Problem.create(problem);
         return problem;
     }

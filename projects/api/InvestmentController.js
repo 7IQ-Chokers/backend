@@ -16,10 +16,10 @@ module.exports = {
 
     createInvestment: async (req, res, next) => {
         let investment = req.body.investment;
-        let user = req.User;
+        let user = req.user;
         investment = await investmentService.addInvestment(investment);
         sendMail(user.email, "", "", "");
-        if(project) {
+        if(investment) {
             res.json({status: 'success', data: {investment: investment}});
         } else {
             res.json({status: 'failure', data: null});
