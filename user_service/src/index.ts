@@ -4,6 +4,7 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import userRouter from "./routes/user/userRouter";
 import organizationRouter from "./routes/organization/organizationRouter";
+import tagRouter from "./routes/tag/tagRouter";
 import verifyUserJWT from "./utils/verifyUserJWT";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(morgan("dev"));
 // Register routes
 app.use("/user", userRouter);
 app.use("/organization", verifyUserJWT, organizationRouter);
+app.use("/tag", verifyUserJWT, tagRouter);
 
 // Start server
 (async () => {

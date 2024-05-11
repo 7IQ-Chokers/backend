@@ -21,7 +21,7 @@ const addNewOrganizationController = async (
   }
 
   const newOrg = new Organization({
-    name: name,
+    name: name.toLowerCase(),
   });
 
   await newOrg.save();
