@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   },
   currentOtp: {
     type: String,
-    default: null,
+    default: "",
   },
   isProfileComplete: {
     type: Boolean,

@@ -33,7 +33,6 @@ const verifyUserJWT = (
       const jwt_payload = <jwt.JwtPayload>jwt.verify(auth_token, jwt_secret);
 
       req.user = {
-        name: jwt_payload.name,
         email: jwt_payload.email,
       };
       next();
