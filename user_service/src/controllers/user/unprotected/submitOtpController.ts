@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../../models/User";
+import User from "../../../models/User";
 import jwt from "jsonwebtoken";
-import configs from "../../config/config";
+import configs from "../../../config/config";
 
 const submitOtpController = async (req: Request, res: Response) => {
   const { email, otp } = req.body;

@@ -39,18 +39,10 @@ const verifyUserJWT = (
     } catch (error: any) {
       if (error.name == "TokenExpiredError") {
         console.error("JWT Expired!", "");
-        res.status(401).send({
-          type: "error",
-          message: "Unauthorized. Token Expired",
-          data: null,
-        });
+        res.status(401).send("Unauthorized. Token Expired");
       } else {
         console.error("JWT Verification Error", error);
-        res.status(500).send({
-          type: "error",
-          message: "Unknown error",
-          data: null,
-        });
+        res.status(401).send("Token invalid");
       }
     }
   }

@@ -1,6 +1,6 @@
 import express from "express";
-import userLoginController from "../../../controllers/user/userLoginController";
-import submitOtpController from "../../../controllers/user/submitOtpController";
+import userLoginController from "../../../controllers/user/unprotected/userLoginController";
+import submitOtpController from "../../../controllers/user/unprotected/submitOtpController";
 
 const router = express.Router();
 

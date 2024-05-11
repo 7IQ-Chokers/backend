@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import User from "../../models/User";
-import sendMail from "../../utils/sendEmail";
+import User from "../../../models/User";
+import sendMail from "../../../utils/sendEmail";
 
 const userLoginController = async (req: Request, res: Response) => {
   const { email } = req.body;
@@ -23,6 +23,9 @@ const userLoginController = async (req: Request, res: Response) => {
       email: email,
     });
     await newUser.save();
+  } else {
+    userDoc.currentOtp = otp;
+    await userDoc.save();
   }
 
   //  Send out email with OTP

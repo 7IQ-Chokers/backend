@@ -6,6 +6,7 @@
     "@types/morgan": "^1.9.9",
     "@types/nodemailer": "^6.4.15",
     "express": "^4.19.2",
+    "fuse.js": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.4",
     "morgan": "^1.10.0",
