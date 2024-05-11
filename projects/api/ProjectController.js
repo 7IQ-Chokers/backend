@@ -1,4 +1,5 @@
 const projectService = require("../service/ProjectService");
+const proposalService = require("../service/ProposalService");
 
 module.exports = {
     findAllProjectsForAProposal: async(req, res, next) => {
@@ -10,11 +11,46 @@ module.exports = {
     findProjectsByTags: async (req, res, next) => {
         let tags = req.body.tags;
         let projects = await projectService.getAllProjectsByTags(tags);
-        res.json({status: 'success', data: {proposals: proposals}});
+        res.json({status: 'success', data: {projects: projects}});
+    },
+
+    upvoteProject: async (req, res, next) => {
+        let userId = req.body.id;
+        let projectId = req.body.projectId;
+        let status = await projectService.upvoteProject(userId, projectId);
+        if(status) {
+            res.json({status: 'success'});
+        } else {
+            res.json({status: 'failure'});
+        }
+    },
+
+    downvoteProject: async (req, res, next) => {
+        let userId = req.body.id;
+        let projectId = req.body.projectId;
+        let status = await projectService.downvoteProject(userId, projectId);
+        if(status) {
+            res.json({status: 'success'});
+        } else {
+            res.json({status: 'failure'});
+        }
     },
 
     createProject: async (req, res, next) => {
         let project = req.body.project;
+        if(!project.proposalId) {
+            let description = await proposalService.generateProposalForAProject(project.title, project.description);
+            let proposal = await proposalService.addProposal({
+                title: `Proposal for ${title}`,
+                description: description,
+                media: [],
+                problem: problemId,
+                createdBy: userId,
+                tags: project.tags
+            });
+            project.proposalId = proposal._id;
+        }
+        
         project = await projectService.addProject(project);
         if(project) {
             res.json({status: 'success', data: {project: project}});

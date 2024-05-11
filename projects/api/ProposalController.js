@@ -1,4 +1,3 @@
-const problemService = require("../service/ProblemService");
 const proposalService = require("../service/ProposalService");
 
 

@@ -1,3 +1,10 @@
+require('dotenv').config({
+    path: 'config/.env',
+});
+const OpenAI = require("openai");
+const openai = new OpenAI();
+
+
 const getProposalById = async (id) => {
     const proposal = await Proposal.findById(id).populate('problem').exec();
     return proposal;
@@ -18,6 +25,21 @@ const getAllProposalsForAPerson = async(personId) => {
 const getAllProposalsForAProblem = async(problemId) => {
     let proposals = await Proposal.findAll({problemId: problemId}).populate('problem').exec();
     return proposals;
+}
+
+const generateProposalForAProject = async(title, description) => {
+    let prompt = `
+     You are an AI assistant that specialises in writing proposals for projects.
+     Consider a social impact project with title: ${title} and description: ${description}.
+     Write a concise proposal for the project in about 100 words.
+    `;
+    const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: prompt }],
+        model: "gpt-3.5-turbo",
+    });
+    
+    return completion.choices[0];
+    
 }
 
 const validateProposalObject = (proposal) => {
@@ -68,5 +90,6 @@ module.exports = {
     getAllProposalsForAProblem,
     addProposal,
     updateProposalById,
-    deleteProposalById
+    deleteProposalById,
+    generateProposalForAProject
 };

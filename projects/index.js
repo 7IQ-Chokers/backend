@@ -13,6 +13,7 @@ const problemRoutes = require("./routes/problem");
 const proposalRoutes = require("./routes/proposal");
 const investmentRoutes = require("./routes/investment");
 const projectRoutes = require("./routes/project");
+const verifyUserJWT = require("./utils/auth");
 
 // database configuration
 
@@ -45,10 +46,10 @@ const validateUser = (req, res, next) => {
   next();
 };
 
-app.use("/problems", validateUser, problemRoutes);
-app.use("/proposals", validateUser, proposalRoutes);
-app.use("/investments", validateUser, investmentRoutes);
-app.use("/projects", validateUser, projectRoutes);
+app.use("/problems", verifyUserJWT, problemRoutes);
+app.use("/proposals", verifyUserJWT, proposalRoutes);
+app.use("/investments", verifyUserJWT, investmentRoutes);
+app.use("/projects", verifyUserJWT, projectRoutes);
 
 
 app.use(function(req, res, next) {
@@ -75,7 +76,7 @@ createMongoConnection(mongoURI).then((connection) => {
   global.Problem = connection.model('Problem', require('./models/problemModel'));
   global.Organization = connection.model('Organization', require('./models/organizationModel'));
   global.Investment = connection.model('Investment', require('./models/investmentModel'));
-
+  
   connection.on('error',
     console.error.bind(console, 'MongoDB connection error:'));
 

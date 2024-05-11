@@ -7,5 +7,7 @@ router.post('/forProposal', projectController.findAllProjectsForAProposal);
 router.post('/tags', projectController.findProjectsByTags);
 router.post('/add', projectController.createProject);
 router.post('/update', projectController.updateProject);
+router.post('/upvote', projectController.upvoteProject);
+router.post('/downvote', projectController.downvoteProject);
 
 module.exports = router;

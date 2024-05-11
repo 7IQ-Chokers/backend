@@ -29,7 +29,15 @@ const Project = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Proposal'
-  }
+  },
+  upvotes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  downvotes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 });
 
 

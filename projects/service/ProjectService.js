@@ -1,24 +1,25 @@
 const getProjectById = async (id) => {
-    const project = await Project.findById(id).populate("proposal").exec();
+    const project = await Project.findById(id).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return project;
 }
 
 const getAllProjectsByTags = async(tags) => {
     let filter = { tags: tags };
     filter.tags = { $in: filter.tags.map(t => new RegExp(t)) };
-    let projects = await Project.find(filter).populate("proposal").exec();
+    let projects = await Project.find(filter).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return projects;
 }
 
 const getAllProjectsForAPerson = async(personId) => {
-    let projects = await Project.findAll({createdBy: personId}).populate("proposal").exec();
+    let projects = await Project.findAll({createdBy: personId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return projects;
 }
 
 const getAllProjectsForAProposal = async(proposalId) => {
-    let projects = await Project.findAll({proposalId: proposalId}).populate("proposal").exec();
+    let projects = await Project.findAll({proposalId: proposalId}).populate("proposal").populate("upvotes").populate("downvotes").exec();
     return projects;
 }
+
 
 const validateProjectObject = (project) => {
     return project && project.title;
@@ -61,11 +62,28 @@ const deleteProjectById = async(project_id) => {
     return false;
 }
 
+const upvoteProject = async(userId, projectId) => {
+    let project = await Project.findById(projectId);
+    let upvotes = [...project.upvotes, userId];
+    updateProjectById(projectId, {upvotes: upvotes});
+    return true;
+}
+
+const downvoteProject = async(userId, projectId) => {
+    let project = await Project.findById(projectId);
+    let downvotes = [...project.downvotes, userId];
+    updateProjectById(projectId, {downvotes: downvotes});
+    return true;
+}
+
+
 module.exports = {
     getProjectById,
     getAllProjectsByTags,
     getAllProjectsForAPerson,
     getAllProjectsForAProposal,
     addProject,
-    updateProjectById
+    updateProjectById,
+    upvoteProject,
+    downvoteProject
 }

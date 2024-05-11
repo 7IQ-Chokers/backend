@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const username = process.env.ATLAS_USERNAME;
 const password = process.env.ATLAS_PASSWORD;
 const DB = process.env.MONGO_DATABASE_NAME;
-const mongoDB = `mongodb+srv://${username}:${password}@7iq-chokers.b396h1w.mongodb.net/?retryWrites=true&w=majority&appName=7IQ-Chokers`;
+const mongoDB = `mongodb+srv://${username}:${password}@7iq-chokers.b396h1w.mongodb.net/${DB}?retryWrites=true&w=majority&appName=7IQ-Chokers`;
 
 async function createMongoConnection(mongoDB) {
 
