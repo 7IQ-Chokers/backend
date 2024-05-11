@@ -1,6 +1,7 @@
 import express from "express";
 import configs from "./config/config";
 import morgan from "morgan";
+import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/user/userRouter";
 import organizationRouter from "./routes/organization/organizationRouter";
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors({ origin: "*" }));
 
 // Register routes
 app.use("/user", userRouter);
