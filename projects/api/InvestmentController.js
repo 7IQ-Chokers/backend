@@ -1,4 +1,5 @@
 const investmentService = require("../service/InvestmentService");
+const sendMail = require("../utils/sendEmail");
 
 module.exports = {
     findAllInvestmentsForAPerson: async(req, res, next) => {
@@ -15,7 +16,9 @@ module.exports = {
 
     createInvestment: async (req, res, next) => {
         let investment = req.body.investment;
+        let user = req.User;
         investment = await investmentService.addInvestment(investment);
+        sendMail(user.email, "", "", "");
         if(project) {
             res.json({status: 'success', data: {investment: investment}});
         } else {
