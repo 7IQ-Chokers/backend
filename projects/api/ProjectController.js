@@ -14,6 +14,14 @@ module.exports = {
         res.json({status: 'success', data: {projects: projects}});
     },
 
+    findProjectsForInvestor: async (req, res, next) => {
+        let investorId = req.body.investorId;
+        let investor = await User.findById(investorId);
+        let tags = investor.interests;
+        let projects = await projectService.getAllProjectsByTags(tags);
+        res.json({status: 'success', data: {projects: projects}});
+    },
+
     upvoteProject: async (req, res, next) => {
         let userId = req.body.id;
         let projectId = req.body.projectId;

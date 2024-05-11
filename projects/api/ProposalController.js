@@ -1,5 +1,5 @@
 const proposalService = require("../service/ProposalService");
-
+const problemService = require("../service/ProblemService");
 
 module.exports = {
     findAllProposalsForAProblem: async(req, res, next) => {
@@ -11,6 +11,14 @@ module.exports = {
     findProposalsByTags: async (req, res, next) => {
         let tags = req.body.tags;
         let proposals = await proposalService.getAllProposalsForAPerson(tags);
+        res.json({status: 'success', data: {proposals: proposals}});
+    },
+    
+    findProposalsForAProblem: async (req, res, next) => {
+        let problemId = req.body.problemId;
+        let problem = await problemService.getProblemById(problemId);
+        let tags = problem.tags;
+        let proposals = await proposalService.getAllProposalsByTags(tags);
         res.json({status: 'success', data: {proposals: proposals}});
     },
 

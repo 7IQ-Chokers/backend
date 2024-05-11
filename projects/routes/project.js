@@ -9,5 +9,6 @@ router.post('/add', projectController.createProject);
 router.post('/update', projectController.updateProject);
 router.post('/upvote', projectController.upvoteProject);
 router.post('/downvote', projectController.downvoteProject);
+router.post('/investor', projectController.findProjectsForInvestor);
 
 module.exports = router;

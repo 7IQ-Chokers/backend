@@ -42,5 +42,6 @@ module.exports = {
     getAllInvestmentsForAPerson,
     getAllInvestmentsForAProject,
     addInvestment,
-    updateInvestmentById
+    updateInvestmentById,
+    getInvestmentById
 }

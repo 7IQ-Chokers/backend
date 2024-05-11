@@ -14,6 +14,15 @@ module.exports = {
         res.json({status: 'success', data: {problems: problems}});
     },
 
+    findSimilarProblemsToAProblem: async (req, res, next) => {
+        let problemId = req.body.problemId;
+        let problem = await problemService.getProblemById(problemId);
+        let tags = problem.tags;
+        let problems = await problemService.getAllProblemsByTags(tags);
+        problems = problems.filter(problem => problem._id != problemId);
+        res.json({status: 'success', data: {problems: problems}});
+    },
+
     createProblem: async (req, res, next) => {
         let problem = req.body.problem;
         problem = await problemService.addProblem(problem);
@@ -33,5 +42,11 @@ module.exports = {
         } else {
             res.json({status: 'failure'});
         }
+    },
+
+    suggestTags: async (req, res, next) => {
+        let description = req.body.description;
+        let tags = await problemService.suggestTagsForProblem(description);
+        res.json({status: 'success', data: {tags: tags}});
     }
 }

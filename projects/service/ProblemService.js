@@ -1,3 +1,10 @@
+require('dotenv').config({
+    path: 'config/.env',
+  });
+const axios = require("axios");
+
+const LLAMA_URI = process.env.LLAMA_URI || "";
+
 const getProblemById = async (id) => {
     const problem = await problem.findById(id);
     return problem;
@@ -67,11 +74,24 @@ const deleteProblemById = async(problem_id) => {
     return false;
 }
 
+const suggestTagsForProblem = async (description) => {
+    let response = await axios.post(`${LLAMA_URI}/api/generate`, {
+        "model": "llama3",
+        "prompt": `You are an AI assistant. You specialise in suggesting tags for a problem statement. Given a description of a social impact problem: ${description}. Suggest 10 tags for the description. Just return a json with field 'tags' containing the tags. Do not return any supporting text without fail.`
+    });
+    let jsonResponse = JSON.parse(response.data["response"]);
+    if(jsonResponse && jsonResponse["tags"]) {
+        return jsonResponse["tags"];
+    }
+    return [];
+}
+
 module.exports = {
     getProblemById,
     getAllProblemsByTags,
     getAllProblemsNearALocation,
     addProblem,
     updateProblemById,
-    deleteProblemById
+    deleteProblemById,
+    suggestTagsForProblem
 }

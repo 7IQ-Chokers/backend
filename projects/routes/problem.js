@@ -5,7 +5,9 @@ const problemController = require('../api/ProblemController');
 
 router.post('/', problemController.findProblemsByLocation);
 router.post('/tags', problemController.findProblemsByTags);
+router.post('/similar', problemController.findSimilarProblemsToAProblem);
 router.post('/add', problemController.createProblem);
 router.post('/update', problemController.updateProblem);
+router.post('/suggestTags', problemController.suggestTags);
 
 module.exports = router;
