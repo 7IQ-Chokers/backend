@@ -1,5 +1,6 @@
 const projectService = require("../service/ProjectService");
 const proposalService = require("../service/ProposalService");
+const userService = require("../service/UserService");
 
 module.exports = {
     findAllProjectsForAProposal: async(req, res, next) => {
@@ -15,10 +16,8 @@ module.exports = {
     },
 
     findProjectsForInvestor: async (req, res, next) => {
-        let investorId = req.body.investorId;
-        let investor = await User.findById(investorId);
-        let tags = investor.interests;
-        let projects = await projectService.getAllProjectsByTags(tags);
+        let investorId = req.user.id;
+        let projects = await userService.getInvestorRecommendedProjects(investorId)
         res.json({status: 'success', data: {projects: projects}});
     },
 

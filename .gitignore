@@ -1,3 +1,4 @@
 projects/node_modules/
 **/config/.env
 node_modules
+user_service/build
