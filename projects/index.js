@@ -20,6 +20,7 @@ const verifyUserJWT = require("./utils/auth");
 const app = express();
 app.set("secretKey", "nodeRestApi"); // jwt secret token
 const { mongoURI } = require("./config/database");
+const configs = require("./config/config");
 
 var corsOptions = {
   origin: "*",
@@ -89,13 +90,17 @@ createMongoConnection(mongoURI)
       "Investment",
       require("./models/investmentModel")
     );
+    global.Metadata = connection.model(
+      "Metadata",
+      require("./models/metadataModel")
+    );
 
     connection.on(
       "error",
       console.error.bind(console, "MongoDB connection error:")
     );
 
-    var port = 4000;
+    var port = configs.port;
     app.listen(port, function () {
       console.log(`=> Server running on port ${port}...`);
     });
