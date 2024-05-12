@@ -23,7 +23,7 @@ const getProfileController = async (
   }
 
   res.json({
-    message: "User profile updated",
+    message: "User profile retrived",
     data: userDoc,
   });
   return;
